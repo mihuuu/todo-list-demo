@@ -4,10 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import LeftMenu from './components/Menu';
 import TodoList from './components/List';
-import TodoListModel from './models/TodoListModel'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-const todoListStore = new TodoListModel();
 
 const theme = createMuiTheme({
   palette: {
@@ -41,6 +39,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     minWidth: 0, // So the Typography noWrap works
   },
+  toolbar: theme.mixins.toolbar,
 });
 
 class App extends Component {
@@ -51,7 +50,8 @@ class App extends Component {
         <Header/>
         <LeftMenu/>
         <main className={classes.content}>
-          <TodoList store={todoListStore}/>
+          <div className={classes.toolbar}/>
+          <TodoList/>
         </main>
       </div>    
     );
