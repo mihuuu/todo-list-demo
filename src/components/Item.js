@@ -9,11 +9,18 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import MenuIcon from "@material-ui/icons/Menu";
+import Button from "@material-ui/core/Button";
 import MoreIcon from "@material-ui/icons/MoreHoriz";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Icon from "@material-ui/core/Icon";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 import EditDialog from './Dialog'
 import EditMenu from './EditMenu'
 
@@ -30,7 +37,8 @@ const styles = theme => ({
 class TodoItem extends React.Component {
 	state = {
     open_menu: false,
-    anchor: null
+		anchor: null,
+		show_info: false,
   };
 
 	onDeleteItem = () => {
@@ -91,13 +99,21 @@ class TodoItem extends React.Component {
 		this.props.onEditDate(this.props.id)
 	}
 
+	showInfo = () => {
+		this.setState({show_info: true})
+	}
+	onInfoClose = () => {
+		this.setState({show_info: false})
+	}
+
   render() {
     const { todo } = this.props;
     const { classes } = this.props;
     var itemClass = todo.finished ? classes.primary : null;
     return (
 			<div>
-				<ListItem key={todo.id} role={undefined} dense button>
+				<ListItem key={todo.id} role={undefined} dense button
+					onClick={this.showInfo}>
         <Checkbox
           checked={todo.finished}
           tabIndex={-1}
@@ -140,6 +156,24 @@ class TodoItem extends React.Component {
 
         </ListItemSecondaryAction>
       </ListItem>
+
+			<Dialog
+					open={this.state.show_info}
+					onClose={this.onInfoClose}
+					aria-labelledby="edit-form-dialog"
+				>
+					<DialogTitle id="edit-form-dialog">项目信息</DialogTitle>
+					<DialogContent>
+						<DialogContentText>
+							内容：{todo.content} / 优先级：{todo.priority} / 截止时间：{todo.expire_date}
+						</DialogContentText>			
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={this.onInfoClose} color="primary">
+							确认
+						</Button>
+					</DialogActions>
+				</Dialog>
 			</div>
       
     );

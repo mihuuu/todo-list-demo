@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import TodoItem from "./Item";
 import EditDialog from "./Dialog";
 import PriDialog from './PriDialog';
+import DateDialog from './DateDialog';
+import Sort from './Sort';
 
 const styles = theme => ({
   root: {
@@ -26,6 +28,9 @@ const styles = theme => ({
   note: {
     marginLeft: 40,
     marginBottom: 20,
+  },
+  first: {
+    display: 'inline-block'
   }
 });
 
@@ -112,6 +117,11 @@ class TodoList extends React.Component {
 		this.setState({
 			show_pri_dialog: false,
 		})
+  }
+  onDateDialogClose = () => {
+		this.setState({
+			show_date_dialog: false,
+		})
 	}
 
   onEditDate = (id) => {
@@ -135,7 +145,7 @@ class TodoList extends React.Component {
 
     return (
       <div className={classes.content}>
-        <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit}>
           <Input
             placeholder="添加待办..."
             className={classes.note}
@@ -181,6 +191,10 @@ class TodoList extends React.Component {
         <PriDialog open={this.state.show_pri_dialog} 
           id={this.state.select_id}
           onClose={this.onPriDialogClose} 
+          onUpdateList={this.getAllItems}/>
+        <DateDialog open={this.state.show_date_dialog} 
+          id={this.state.select_id}
+          onClose={this.onDateDialogClose} 
           onUpdateList={this.getAllItems}/>
         
       </div>

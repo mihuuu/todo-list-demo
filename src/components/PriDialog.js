@@ -23,17 +23,6 @@ class PriDialog extends React.Component {
 		this.props.onClose();
 	}
 	
-	// getValue = (label) => {
-	// 	//todos.filter(todo => todo.finished !== true).length
-	// 	console.log("getLabel value:" + label)
-	// 	for(var item in options) {
-	// 		if(item.label == label) {
-	// 			console.log("after function:" + item.value);
-	// 			return item.value;
-	// 		}
-	// 	}
-		
-	// }
 
 	onChange = (e) => {
 		this.setState({

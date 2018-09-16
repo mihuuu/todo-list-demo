@@ -57,7 +57,7 @@ class EditDialog extends React.Component {
 					<DialogTitle id="edit-form-dialog">编辑项目</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							修改项目内容:
+							修改项目内容:                                                         
 						</DialogContentText>
 						<TextField
 								autoFocus margin="dense" id="content" name="content"

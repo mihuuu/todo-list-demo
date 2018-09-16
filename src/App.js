@@ -27,7 +27,7 @@ const theme = createMuiTheme({
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 580,
+    minHeight: 580,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
