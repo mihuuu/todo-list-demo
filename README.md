@@ -29,7 +29,7 @@ The following development tools are involved:
 
 #### 3. Edit Content
 
-![edit_content](ttps://i.loli.net/2018/09/16/5b9e6b361f469.gif)
+![edit_content](https://i.loli.net/2018/09/16/5b9e6ab4b4b9c.gif)
 
 <br>
 
