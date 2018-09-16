@@ -13,6 +13,18 @@ The following development tools are involved:
 
 <br>
 
+###Run the project
+
+The project is based on local host
+
+For React, use `npm start` on `localhost:3000`
+
+For Django, use `python manage.py runserver` on `http://127.0.0.1:8000`
+
+Then you can test the demo on React app :)
+
+<br>
+
 ## Features
 
 #### 1. Add Todo
