@@ -17,7 +17,7 @@ The following development tools are involved:
 
 ## Features
 
-####1. Add Todo
+#### 1. Add Todo
 
 ![add_todo](https://i.loli.net/2018/09/16/5b9e67f2880c9.gif)
 
@@ -59,7 +59,7 @@ The following development tools are involved:
 
 <br>
 
-###To be improved
+### To be improved
 
 There are some features I haven't finished:
 
