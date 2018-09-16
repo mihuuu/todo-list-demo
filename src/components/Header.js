@@ -9,6 +9,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import TodoIcon from "@material-ui/icons/CheckBox";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -70,6 +71,9 @@ const styles = theme => ({
   grow: {
     flexGrow: 1,
   },
+  logoName: {
+    marginLeft: 10
+  }
 });
 
 class Header extends Component {
@@ -77,10 +81,11 @@ class Header extends Component {
   render() {
     const { classes } = this.props;
     return (   
-      <AppBar position="absolute" className={classes.appBar}>
+      <AppBar position="absolute" className={classes.appBar} color="primary">
         <Toolbar>
-          <Typography variant="title" color="inherit" noWrap>
-            Todo List
+          <TodoIcon />
+          <Typography variant="title" color="inherit" noWrap className={classes.logoName}>
+            待办清单
           </Typography>
           
           <div className={classes.grow}/>
@@ -89,7 +94,7 @@ class Header extends Component {
               <SearchIcon />
             </div>
             <Input
-              placeholder="Search…"
+              placeholder="查找…"
               disableUnderline
               classes={{
                 root: classes.inputRoot,

@@ -20,7 +20,7 @@ import EditMenu from './EditMenu'
 const styles = theme => ({
   primary: {
     textDecoration: "line-through",
-    color: "#E91E63",
+    color: "#002984",
     opacity: 0.5
   },
   toolbar: theme.mixins.toolbar,
@@ -101,7 +101,8 @@ class TodoItem extends React.Component {
         <Checkbox
           checked={todo.finished}
           tabIndex={-1}
-          onClick={this.onMarkItem}
+					onClick={this.onMarkItem}
+					color="primary"
         />
         <ListItemText primary={todo.content} className={itemClass} />
         <ListItemSecondaryAction className={classes.toolbar}>

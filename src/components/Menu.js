@@ -40,16 +40,22 @@ class LeftMenu extends Component {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="Inbox" />
+          <ListItemText primary="全部" />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
             <DraftsIcon />
           </ListItemIcon>
-          <ListItemText primary="Drafts" />
+          <ListItemText primary="待办" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="已完成" />
         </ListItem>
       </List>
-      <Divider />
+      {/* <Divider />
       <List component="nav">
         <ListItem button>
           <ListItemText primary="Trash" />
@@ -57,7 +63,7 @@ class LeftMenu extends Component {
         <ListItem button component="a" href="#simple-list">
           <ListItemText primary="Spam" />
         </ListItem>
-      </List>
+      </List> */}
       </Drawer>
 		)
 	}

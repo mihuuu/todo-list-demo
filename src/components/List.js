@@ -5,6 +5,7 @@ import List from "@material-ui/core/List";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
+import IconButton from '@material-ui/core/IconButton';
 import TodoItem from "./Item";
 import EditDialog from "./Dialog";
 import PriDialog from './PriDialog';
@@ -22,12 +23,16 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     minWidth: 0, // So the Typography noWrap works
   },
+  note: {
+    marginLeft: 40,
+    marginBottom: 20,
+  }
 });
 
 class TodoList extends React.Component {
   state = {
-    todos: [],
-    input: "",
+    todos: [],  //all items
+    input: "",  //add todo content
     new_content: "",
     select_id: undefined,
     show_dialog: false,
@@ -132,16 +137,17 @@ class TodoList extends React.Component {
       <div className={classes.content}>
         <form onSubmit={this.onSubmit}>
           <Input
-            placeholder="Placeholder"
-            className={classes.input}
+            placeholder="添加待办..."
+            className={classes.note}
             onChange={this.onAddChange}
             value={this.state.input}
             name="add"
             inputProps={{
               "aria-label": "Description"
             }}
+            color="secondary"
           />
-          <Button
+          <IconButton
             variant="fab"
             mini
             color="secondary"
@@ -150,10 +156,12 @@ class TodoList extends React.Component {
             onClick={this.onSubmit}
           >
             <AddIcon />
-          </Button>
+          </IconButton>
         </form>
-        <small>Total {this.state.todos.length} items.</small>
-        <small>You have {this.TodosCount()} items todo!</small>
+        <small className={classes.note}>
+          共 {this.state.todos.length} 个项目，
+          还有 {this.TodosCount()} 个待办。
+        </small>
         <List>
           {todos.map(todo => (
             <TodoItem
