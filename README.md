@@ -13,15 +13,11 @@ The following development tools are involved:
 
 <br>
 
-<br>
-
 ## Features
 
 #### 1. Add Todo
 
 ![add_todo](https://i.loli.net/2018/09/16/5b9e67f2880c9.gif)
-
-<br>
 
 <br>
 
@@ -31,13 +27,9 @@ The following development tools are involved:
 
 <br>
 
-<br>
-
 #### 3. Edit Content
 
 ![edit_content](https://i.loli.net/2018/09/16/5b9e6a4fc6973.gif)
-
-<br>
 
 <br>
 
@@ -47,13 +39,9 @@ The following development tools are involved:
 
 <br>
 
-<br>
-
 #### 5. Set Priority
 
 ![edit_content](https://i.loli.net/2018/09/16/5b9e6b361f469.gif)
-
-<br>
 
 <br>
 
