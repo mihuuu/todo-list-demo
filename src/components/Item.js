@@ -63,8 +63,8 @@ class TodoItem extends React.Component {
 		});
   };
 
-  handleEditItem = () => {
-		this.props.onEditItem(this.props.id);
+  handleEditContent = () => {
+		this.props.onEditContent(this.props.id, this.props.todo.content);
   };
 
 
@@ -83,7 +83,7 @@ class TodoItem extends React.Component {
         <ListItemText primary={todo.content} className={itemClass} />
         <ListItemSecondaryAction className={classes.toolbar}>
           <IconButton aria-label="Edit">
-            <EditIcon onClick={this.handleEditItem} />
+            <EditIcon onClick={this.handleEditContent} />
           </IconButton>
           <IconButton aria-label="Delete">
             <DeleteIcon onClick={this.onDeleteItem} />

@@ -30,6 +30,7 @@ class TodoList extends React.Component {
     show_dialog: false,
 		new_content: "",
     select_id: undefined,
+    item_content: ''
   };
 
   getAllItems = () => {
@@ -85,10 +86,11 @@ class TodoList extends React.Component {
 
   };
 
-  onEditItem = (id) => {
+  onEditContent = (id, content) => {
     this.setState({
 			show_dialog: true,
-			select_id: id, 
+      select_id: id,
+      item_content: content,
 		});
 		console.log("select item id:" + id);
   };
@@ -165,12 +167,12 @@ class TodoList extends React.Component {
               todo={todo}
               id={todo.id}
               checked={todo.finished}
-              onEditItem={this.onEditItem}
+              onEditContent={this.onEditContent}
 							onUpdateList={this.getAllItems}
             />
           ))}
         </List>
-				<EditDialog open={this.state.show_dialog} id={this.state.select_id}
+				<EditDialog open={this.state.show_dialog} id={this.state.select_id} content={this.state.item_content}
 										onClose={this.onDialogClose} onUpdateList={this.getAllItems}/>
       </div>
     );

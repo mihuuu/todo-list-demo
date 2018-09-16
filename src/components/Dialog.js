@@ -9,29 +9,16 @@ import Button from "@material-ui/core/Button";
 import { MenuItem } from "@material-ui/core";
 
 
-const prioritys = [
-	{ value: 1, label: '紧急'},
-	{ value: 2, label: '重要'},
-	{ value: 3, label: '一般'},
-]
-
 class EditDialog extends React.Component {
 	state = {
-		content: '',
-		priority: 0,
-		date: null
+		content: this.props.content,
 	}
 
 	handleDialogClose = () => {
 		this.props.onClose();
 	}
 
-	onChange = name => event => {
-		this.setState({
-			[name]: event.target.value,
-		})
-	}
-	onContentChange = (e) => {
+	onChange = (e) => {
 		this.setState({
 			'content': e.target.value,
 		})
@@ -44,8 +31,8 @@ class EditDialog extends React.Component {
 				method: 'POST',
 				headers: {'Content-Type': 'application/json',},
 				body: JSON.stringify({
-					id: this.props.item.id,
-					content: content,
+					id: this.props.id,
+					content: this.state.content,
 				})
 			}).then(
 				res => res.json()
@@ -59,35 +46,28 @@ class EditDialog extends React.Component {
 		}
 	}
 
-	componentWillMount = () => {
-		const find_url = "http://127.0.0.1:8000/api/get_todo/";
-		fetch(find_url, {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json',},
-			body: JSON.stringify({
-				id: this.props.id,
-			})
-		}).then(
-			res => res.json()
-		).then(res => {
-			console.log(res);
-			this.setState({
-				content: res.content,
-				priority: res.priority,
-				date: res.expire_date,
-			});
-			console.log("get content:"+this.state.content)
-		});
+	// componentWillMount = () => {
+	// 	const find_url = "http://127.0.0.1:8000/api/get_todo/";
+	// 	fetch(find_url, {
+	// 		method: 'POST',
+	// 		headers: {'Content-Type': 'application/json',},
+	// 		body: JSON.stringify({
+	// 			id: this.props.id,
+	// 		})
+	// 	}).then(
+	// 		res => res.json()
+	// 	).then(res => {
+	// 		console.log(res);
+	// 		this.setState({
+	// 			content: res.content,
+	// 			priority: res.priority,
+	// 			date: res.expire_date,
+	// 		});
+	// 		console.log("get content:"+this.state.content)
+	// 	});
 	
-	}
+	// }
 	
-	GetPriority = () => {
-		var op = prioritys.filter(option => 
-			{option.value === this.props.item.priority}
-		)
-		return op.label;
-		console.log("get pri:" + op.label);
-	}
 
 	render() {
 		return (
@@ -106,7 +86,7 @@ class EditDialog extends React.Component {
 						<TextField
 								autoFocus margin="dense" id="content" name="content"
 								label="待办内容" type="text" fullWidth
-								onChange={this.onContentChange} value={this.state.content}
+								onChange={this.onChange} value={this.state.content}
 							/>
 							{/* <TextField
 								autoFocus margin="dense" id="priority" name="priority"
