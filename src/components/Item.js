@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Icon from "@material-ui/core/Icon";
+import EditDialog from './Dialog'
 
 const styles = theme => ({
   primary: {
@@ -19,30 +20,65 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
+
 class TodoItem extends React.Component {
-  handleDeleteItem = () => {
-    this.props.onDeleteItem(this.props.id);
+	// state = {
+	// 	show_dialog: false,
+	// }
+
+	onDeleteItem = () => {
+		const delete_url = "http://127.0.0.1:8000/api/delete_todo/";
+		fetch(delete_url, {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json',},
+			body: JSON.stringify({
+				id: this.props.id,
+			})
+		}).then(
+			res => res.json()
+		).then(res => {
+			console.log("delete ok")
+			this.props.onUpdateList();
+		});
+		
+	};
+
+	handleUpdateItem = () => {
+		this.props.onUpdateList();
+	}
+
+	onMarkItem = () => {
+    const mark_url = "http://127.0.0.1:8000/api/mark_todo/";
+		fetch(mark_url, {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json',},
+			body: JSON.stringify({
+				id: this.props.id,
+			})
+		}).then(
+			res => res.json()
+		).then(res => {
+			console.log("mark ok")
+			this.props.onUpdateList();
+		});
   };
 
   handleEditItem = () => {
-    this.props.onEditItem(this.props.id);
-    sessionStorage.setItem("id", JSON.stringify(this.props.id));
+		this.props.onEditItem(this.props.id);
   };
 
-  handleMarkItem = () => {
-    this.props.onMarkItem(this.props.id);
-  };
 
   render() {
     const { todo } = this.props;
     const { classes } = this.props;
     var itemClass = todo.finished ? classes.primary : null;
     return (
-      <ListItem key={todo.id} role={undefined} dense button>
+			<div>
+				<ListItem key={todo.id} role={undefined} dense button>
         <Checkbox
           checked={todo.finished}
           tabIndex={-1}
-          onClick={this.handleMarkItem}
+          onClick={this.onMarkItem}
         />
         <ListItemText primary={todo.content} className={itemClass} />
         <ListItemSecondaryAction className={classes.toolbar}>
@@ -50,10 +86,12 @@ class TodoItem extends React.Component {
             <EditIcon onClick={this.handleEditItem} />
           </IconButton>
           <IconButton aria-label="Delete">
-            <DeleteIcon onClick={this.handleDeleteItem} />
+            <DeleteIcon onClick={this.onDeleteItem} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
+			</div>
+      
     );
   }
 }

@@ -6,13 +6,7 @@ import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import TodoItem from "./Item";
-// import EditDialog from "./Dialog";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import EditDialog from "./Dialog";
 
 const styles = theme => ({
   root: {
@@ -34,14 +28,14 @@ class TodoList extends React.Component {
     input: "",
     todos: [],
     show_dialog: false,
-    new_content: ""
+		new_content: "",
+    select_id: undefined,
   };
 
-  componentDidMount() {
+  getAllItems = () => {
     var todos_url = "http://127.0.0.1:8000/api/all/";
     fetch(todos_url, {
       method: "GET",
-      mode: "cors"
     })
       .then(res => {
         console.log(res);
@@ -51,6 +45,10 @@ class TodoList extends React.Component {
         this.setState({"todos": res});
       })
   }
+
+	componentDidMount() {
+		this.getAllItems();
+	}
 
   TodosCount = () => {
     const { todos } = this.state;
@@ -66,76 +64,69 @@ class TodoList extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     const input = this.state.input;
-    if (input != "") {
-      var item = {
-        content: this.state.input,
-        finished: false,
-        id: Date.now()
-      };
-      this.setState({
-        todos: [...this.state.todos, item],
-        input: ""
-      });
-      console.log("new key:" + item.key);
+    if (input !== "") {
+			const add_url = "http://127.0.0.1:8000/api/add_todo/";
+			fetch(add_url, {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json',},
+				body: JSON.stringify({
+					id: Date.now(),
+					content: input,
+				})
+			}).then(
+				res => res.json()
+			).then(res => {
+				this.setState({
+					todos: [res, ...this.state.todos],
+					input: ''
+				})
+			})
     }
 
-    console.log(this.state.todos);
   };
 
-  onDeleteItem = id => {
-    var updated_list = this.state.todos.filter(function(item) {
-      return item.id != id;
-    });
+  onEditItem = (id) => {
     this.setState({
-      todos: updated_list
-    });
+			show_dialog: true,
+			select_id: id, 
+		});
+		console.log("select item id:" + id);
   };
 
-  onEditItem = id => {
-    this.setState({
-      show_dialog: true
-    });
-  };
+	onDialogClose = () => {
+		this.setState({
+			show_dialog: false,
+		})
+	}
+  // /*The following are for dialog */
+  // handleDialogOpen = () => {
+  //   this.setState({ show_dialog: true });
+  // };
 
-  onMarkItem = id => {
-    var updated_list = this.state.todos.filter(function(item) {
-      if (item.id == id) item.finished = !item.finished;
-      return item;
-    });
-    this.setState({
-      todos: updated_list
-    });
-  };
+  // handleDialogClose = () => {
+  //   this.setState({ show_dialog: false });
+  // };
+  // onEditChange = e => {
+  //   this.setState({
+  //     new_content: e.target.value
+  //   });
+  // };
+  // onEditSubmit = e => {
+  //   //this.onEditSubmit(id);
+  //   const { new_content, todos } = this.state;
+  //   var id = JSON.parse(sessionStorage.getItem("id"));
+  //   // console.log("item id:" + id);
+  //   // console.log("new content:" + new_content);
+  //   var updated_list = todos.filter(function(item) {
+  //     if (item.id === id && new_content !== "") item.content = new_content;
+  //     return item;
+  //   });
 
-  /*The following are for dialog */
-  handleDialogOpen = () => {
-    this.setState({ show_dialog: true });
-  };
-
-  handleDialogClose = () => {
-    this.setState({ show_dialog: false });
-  };
-  onEditChange = e => {
-    this.setState({
-      new_content: e.target.value
-    });
-  };
-  onEditSubmit = e => {
-    //this.onEditSubmit(id);
-    const { new_content, todos } = this.state;
-    var id = JSON.parse(sessionStorage.getItem("id"));
-    // console.log("item id:" + id);
-    // console.log("new content:" + new_content);
-    var updated_list = todos.filter(function(item) {
-      if (item.id === id && new_content !== "") item.content = new_content;
-      return item;
-    });
-
-    this.setState({
-      todos: updated_list,
-      show_dialog: false
-    });
-  };
+  //   this.setState({
+  //     todos: updated_list,
+  //     show_dialog: false
+  //   });
+  // };
 
   render() {
     const { classes } = this.props;
@@ -174,44 +165,13 @@ class TodoList extends React.Component {
               todo={todo}
               id={todo.id}
               checked={todo.finished}
-              onDeleteItem={this.onDeleteItem}
               onEditItem={this.onEditItem}
-              onMarkItem={this.onMarkItem}
+							onUpdateList={this.getAllItems}
             />
           ))}
         </List>
-        <div>
-          <Dialog
-            open={this.state.show_dialog}
-            onClose={this.handleDialogClose}
-            aria-labelledby="edit-form-dialog"
-          >
-            <DialogTitle id="edit-form-dialog">编辑项目</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                你可以修改项目的内容、截止时间、优先级。
-              </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="item content"
-                type="text"
-                fullWidth
-                onChange={this.onEditChange}
-                name="edit"
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleDialogClose} color="primary">
-                取消
-              </Button>
-              <Button onClick={this.onEditSubmit} color="primary">
-                确认
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
+				<EditDialog open={this.state.show_dialog} id={this.state.select_id}
+										onClose={this.onDialogClose} onUpdateList={this.getAllItems}/>
       </div>
     );
   }
