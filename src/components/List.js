@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import TodoItem from "./Item";
 import EditDialog from "./Dialog";
+import PriDialog from './PriDialog';
 
 const styles = theme => ({
   root: {
@@ -25,12 +26,13 @@ const styles = theme => ({
 
 class TodoList extends React.Component {
   state = {
-    input: "",
     todos: [],
-    show_dialog: false,
-		new_content: "",
+    input: "",
+    new_content: "",
     select_id: undefined,
-    item_content: ''
+    show_dialog: false,
+    show_pri_dialog: false,
+    show_date_dialog: false,
   };
 
   getAllItems = () => {
@@ -99,40 +101,31 @@ class TodoList extends React.Component {
 		this.setState({
 			show_dialog: false,
 		})
+  }
+  
+  onPriDialogClose = () => {
+		this.setState({
+			show_pri_dialog: false,
+		})
 	}
-  // /*The following are for dialog */
-  // handleDialogOpen = () => {
-  //   this.setState({ show_dialog: true });
-  // };
 
-  // handleDialogClose = () => {
-  //   this.setState({ show_dialog: false });
-  // };
-  // onEditChange = e => {
-  //   this.setState({
-  //     new_content: e.target.value
-  //   });
-  // };
-  // onEditSubmit = e => {
-  //   //this.onEditSubmit(id);
-  //   const { new_content, todos } = this.state;
-  //   var id = JSON.parse(sessionStorage.getItem("id"));
-  //   // console.log("item id:" + id);
-  //   // console.log("new content:" + new_content);
-  //   var updated_list = todos.filter(function(item) {
-  //     if (item.id === id && new_content !== "") item.content = new_content;
-  //     return item;
-  //   });
+  onEditDate = (id) => {
+    this.setState({
+			show_date_dialog: true,
+      select_id: id,
+		});
+  }
 
-  //   this.setState({
-  //     todos: updated_list,
-  //     show_dialog: false
-  //   });
-  // };
+  onEditPriority = (id) => {
+    this.setState({
+			show_pri_dialog: true,
+      select_id: id,
+		});
+  }
 
   render() {
     const { classes } = this.props;
-    const { todos } = this.state;
+    const { todos , show_dialog} = this.state;
     // var count = this.TodosCount;
 
     return (
@@ -168,12 +161,20 @@ class TodoList extends React.Component {
               id={todo.id}
               checked={todo.finished}
               onEditContent={this.onEditContent}
-							onUpdateList={this.getAllItems}
+              onUpdateList={this.getAllItems}
+              onEditPriority={this.onEditPriority}
+              onEditDate={this.onEditDate}
             />
           ))}
         </List>
-				<EditDialog open={this.state.show_dialog} id={this.state.select_id} content={this.state.item_content}
+  
+				<EditDialog open={show_dialog} id={this.state.select_id} content={this.state.item_content}
 										onClose={this.onDialogClose} onUpdateList={this.getAllItems}/>
+        <PriDialog open={this.state.show_pri_dialog} 
+          id={this.state.select_id}
+          onClose={this.onPriDialogClose} 
+          onUpdateList={this.getAllItems}/>
+        
       </div>
     );
   }

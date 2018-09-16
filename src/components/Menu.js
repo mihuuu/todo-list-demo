@@ -12,7 +12,7 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const styles = theme => ({
 	drawerPaper: {

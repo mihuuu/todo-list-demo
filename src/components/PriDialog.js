@@ -8,31 +8,49 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import { MenuItem } from "@material-ui/core";
 
+const options = [
+  { value: 1, label: '紧急', },
+	{ value: 2, label: '重要', },
+	{ value: 3, label: '一般', },
+];
 
-class EditDialog extends React.Component {
+class PriDialog extends React.Component {
 	state = {
-		content: this.props.content,
+		priority: '一般',
 	}
 
 	handleDialogClose = () => {
 		this.props.onClose();
 	}
+	
+	// getValue = (label) => {
+	// 	//todos.filter(todo => todo.finished !== true).length
+	// 	console.log("getLabel value:" + label)
+	// 	for(var item in options) {
+	// 		if(item.label == label) {
+	// 			console.log("after function:" + item.value);
+	// 			return item.value;
+	// 		}
+	// 	}
+		
+	// }
 
 	onChange = (e) => {
 		this.setState({
-			'content': e.target.value,
+			'priority': e.target.value,
 		})
 	}
 	onEditItem = () => {
-		const edit_url = "http://127.0.0.1:8000/api/edit_todo/";
-		const {content} = this.state;
-		if(content != '') {
+		const edit_url = "http://127.0.0.1:8000/api/edit_priority/";
+		const {priority} = this.state;
+
+		if(priority != '') {
 			fetch(edit_url, {
 				method: 'POST',
 				headers: {'Content-Type': 'application/json',},
 				body: JSON.stringify({
 					id: this.props.id,
-					content: this.state.content,
+					priority: priority,
 				})
 			}).then(
 				res => res.json()
@@ -54,16 +72,26 @@ class EditDialog extends React.Component {
 					onClose={this.handleDialogClose}
 					aria-labelledby="edit-form-dialog"
 				>
-					<DialogTitle id="edit-form-dialog">编辑项目</DialogTitle>
+					<DialogTitle id="edit-form-dialog">编辑优先级</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							修改项目内容:
+							三种优先级：紧急 / 重要 / 一般
 						</DialogContentText>
 						<TextField
-								autoFocus margin="dense" id="content" name="content"
-								label="待办内容" type="text" fullWidth
-								onChange={this.onChange} value={this.state.content}
-							/>
+							id="select-priority"
+							select
+							label="Select"
+							value={this.state.priority}
+							onChange={this.onChange}
+							helperText="Please select your currency"
+							margin="normal"
+						>
+							{options.map(option => (
+								<MenuItem key={option.value} value={option.value}>
+									{option.label}
+								</MenuItem>
+							))}
+						</TextField>
 									
 					</DialogContent>
 					<DialogActions>
@@ -81,4 +109,4 @@ class EditDialog extends React.Component {
 }
 
 
-export default EditDialog;
+export default PriDialog;

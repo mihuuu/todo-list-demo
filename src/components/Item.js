@@ -8,8 +8,14 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import MenuIcon from "@material-ui/icons/Menu";
+import MoreIcon from "@material-ui/icons/MoreHoriz";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import Icon from "@material-ui/core/Icon";
 import EditDialog from './Dialog'
+import EditMenu from './EditMenu'
 
 const styles = theme => ({
   primary: {
@@ -22,9 +28,10 @@ const styles = theme => ({
 
 
 class TodoItem extends React.Component {
-	// state = {
-	// 	show_dialog: false,
-	// }
+	state = {
+    open_menu: false,
+    anchor: null
+  };
 
 	onDeleteItem = () => {
 		const delete_url = "http://127.0.0.1:8000/api/delete_todo/";
@@ -67,6 +74,22 @@ class TodoItem extends React.Component {
 		this.props.onEditContent(this.props.id, this.props.todo.content);
   };
 
+	//menu for priority and date
+	handleMenu = event => {
+    this.setState({ anchor: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchor: null });
+	};
+	
+	handleEditPriority = () => {
+		this.props.onEditPriority(this.props.id)
+	}
+
+	handleEditDate = () => {
+		this.props.onEditDate(this.props.id)
+	}
 
   render() {
     const { todo } = this.props;
@@ -88,6 +111,32 @@ class TodoItem extends React.Component {
           <IconButton aria-label="Delete">
             <DeleteIcon onClick={this.onDeleteItem} />
           </IconButton>
+					
+					<IconButton
+          aria-haspopup="true"
+          aria-owns="menu-appbar"
+          onClick={this.handleMenu}
+        >
+          <MoreIcon />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          open={this.state.anchor}
+          onClose={this.handleClose}
+          anchorEl={this.state.anchor}
+          anchorOrigin={{
+						vertical: "top",
+            horizontal: "right"
+          }}
+          transformOrigin={{
+						vertical: "top",
+            horizontal: "right"
+          }}
+        >
+          <MenuItem onClick={this.handleEditPriority}>优先级</MenuItem>
+          <MenuItem onClick={this.handleEditDate}>截止时间</MenuItem>
+        </Menu>
+
         </ListItemSecondaryAction>
       </ListItem>
 			</div>
