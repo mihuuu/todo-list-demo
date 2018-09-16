@@ -92,11 +92,13 @@ class TodoItem extends React.Component {
 	};
 	
 	handleEditPriority = () => {
-		this.props.onEditPriority(this.props.id)
+		this.props.onEditPriority(this.props.id);
+		this.setState({ anchor: null});
 	}
 
 	handleEditDate = () => {
-		this.props.onEditDate(this.props.id)
+		this.props.onEditDate(this.props.id);
+		this.setState({ anchor: null});
 	}
 
 	showInfo = () => {
@@ -112,15 +114,14 @@ class TodoItem extends React.Component {
     var itemClass = todo.finished ? classes.primary : null;
     return (
 			<div>
-				<ListItem key={todo.id} role={undefined} dense button
-					onClick={this.showInfo}>
+				<ListItem key={todo.id} role={undefined} dense button>
         <Checkbox
           checked={todo.finished}
           tabIndex={-1}
 					onClick={this.onMarkItem}
 					color="primary"
         />
-        <ListItemText primary={todo.content} className={itemClass} />
+        <ListItemText primary={todo.content} className={itemClass} onClick={this.showInfo}/>
         <ListItemSecondaryAction className={classes.toolbar}>
           <IconButton aria-label="Edit">
             <EditIcon onClick={this.handleEditContent} />

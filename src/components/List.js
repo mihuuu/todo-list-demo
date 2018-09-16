@@ -169,8 +169,7 @@ class TodoList extends React.Component {
           </IconButton>
         </form>
         <small className={classes.note}>
-          共 {this.state.todos.length} 个项目，
-          还有 {this.TodosCount()} 个待办。
+          你有 {this.TodosCount()} 个待办。
         </small>
         <List>
           {todos.map(todo => (

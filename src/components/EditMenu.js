@@ -11,7 +11,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 class EditMenu extends React.Component {
   state = {
     open_menu: false,
-    anchor: null
+    anchor: false,
   };
 
   handleMenu = event => {

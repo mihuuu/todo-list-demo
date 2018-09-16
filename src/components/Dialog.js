@@ -62,7 +62,7 @@ class EditDialog extends React.Component {
 						<TextField
 								autoFocus margin="dense" id="content" name="content"
 								label="待办内容" type="text" fullWidth
-								onChange={this.onChange} value={this.state.content}
+								onChange={this.onChange}
 							/>
 									
 					</DialogContent>
